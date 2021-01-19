@@ -4,7 +4,7 @@
             <h3 class="title">Sistem Back End</h3>
         </div>
         <el-tabs v-model="activeName" stretch>
-            <el-tab-pane label="登录" name="first">
+            <el-tab-pane label="Log In" name="first">
                 <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
                          label-position="left">
                     <el-form-item prop="loginPhone">
@@ -46,7 +46,7 @@
                         <el-input
                                 ref="imgCode"
                                 v-model="loginForm.code"
-                                placeholder="Harap masukkan kode verifikasi grafis"
+                                placeholder="masukkan kode verifikasi grafis"
                                 name="imgCode"
                                 type="text"
                                 tabindex="3"
@@ -63,7 +63,7 @@
 
             </el-tab-pane>
 
-            <el-tab-pane label="注册" name="second">
+            <el-tab-pane label="Terdaftar" name="second">
                 <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="login-form" auto-complete="on"
                          label-position="left">
                     <el-form-item prop="registerPhone">
@@ -73,7 +73,7 @@
                         <el-input
                                 ref="registerPhone"
                                 v-model="registerForm.phone"
-                                placeholder="手机号"
+                                placeholder="Masukkan No.Telp"
                                 name="registerPhone"
                                 type="text"
                                 tabindex="1"
@@ -87,7 +87,7 @@
                         <el-input
                                 ref="phoneCode"
                                 v-model="registerForm.phoneCode"
-                                placeholder="短信验证码"
+                                placeholder="Masukkan OTP"
                                 name="phoneCode"
                                 type="text"
                                 tabindex="1"
@@ -105,7 +105,7 @@
                         <el-input
                                 ref="registerEmail"
                                 v-model="registerForm.email"
-                                placeholder="邮箱"
+                                placeholder="Masukkan Email"
                                 name="registerEmail"
                                 type="text"
                                 tabindex="1"
@@ -119,7 +119,7 @@
                         <el-input
                                 ref="emailCode"
                                 v-model="registerForm.emailCode"
-                                placeholder="邮箱验证码"
+                                placeholder="Masukkan Kode verifikasi email"
                                 name="emailCode"
                                 type="text"
                                 tabindex="1"
@@ -139,7 +139,7 @@
                                 ref="registerPassword"
                                 v-model="registerForm.password"
                                 :type="passwordType"
-                                placeholder="密码"
+                                placeholder="Masukkun password"
                                 name="registerPassword"
                                 tabindex="2"
                                 auto-complete="on"
@@ -208,9 +208,9 @@
                 loading: false,
                 passwordType: 'password',
                 redirect: undefined,
-                phoneValiBtn: '获取短信码',
+                phoneValiBtn: 'Dapatkan SMS',
                 phoneDisabled: false,
-                emailValiBtn: '获取邮箱码',
+                emailValiBtn: 'Dapatkan kode',
                 emailDisabled: false,
             }
         },
@@ -256,6 +256,7 @@
                                 sessionStorage.setItem('email', response.data.email);
                                 this.$router.push({path: this.redirect || '/'});
                             } else {
+                            	this.loginForm.code = '';
                                 this.generate();
                             }
 	                        this.loading = false;
@@ -286,7 +287,7 @@
                     })
                 } else {
                     this.$message({
-                        message: '请输入手机号' || 'Error',
+                        message: 'Masukkan No.Telp' || 'Error',
                         type: 'error',
                         duration: 5 * 1000
                     })
@@ -309,7 +310,7 @@
                     })
                 } else {
                     this.$message({
-                        message: '请输入邮箱' || 'Error',
+                        message: 'Masukkan Email' || 'Error',
                         type: 'error',
                         duration: 5 * 1000
                     })
@@ -322,19 +323,19 @@
                     if(time == 0){
                         clearInterval(timer);
                         if (type === 'phone'){
-                            this.phoneValiBtn = '获取验证码';
+                            this.phoneValiBtn = 'Dapatkan SMS';
                             this.phoneDisabled = false;
                         } else if (type === 'email'){
-                            this.emailValiBtn = '获取验证码';
+                            this.emailValiBtn = 'Dapatkan kode';
                             this.emailDisabled = false;
                         }
                     }else{
                         if (type === 'phone'){
                             this.phoneDisabled = true;
-                            this.phoneValiBtn = time + '秒后重试';
+                            this.phoneValiBtn = time + 's';
                         } else if (type === 'email'){
                             this.emailDisabled = true;
-                            this.emailValiBtn = time + '秒后重试';
+                            this.emailValiBtn = time + 's';
                         }
                         time--;
                     }
