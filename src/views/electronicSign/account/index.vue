@@ -11,7 +11,7 @@
             </el-steps>
         </div>
         <el-button type="primary" v-if="state !== -1 && state !== 10" :loading="loading" @click="onSubmit(state)">{{text}}</el-button>
-        <el-button type="danger" v-if="state !== -1 && state !== 10" @click="refresh">刷新</el-button>
+        <el-button type="danger" v-if="state !== -1 && state !== 10" @click="refresh">Segar</el-button>
     </div>
 </template>
 

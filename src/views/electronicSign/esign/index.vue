@@ -96,7 +96,7 @@
 			//批量签字
 			batchSign() {
 				if (this.multipleSelection.length !== 0){
-					if (this.state == 2) {
+					if (this.state == 10) {
 						this.$confirm(this.multipleSelection.length + ' kontrak telah dipilih untuk Anda, konfirmasi penandatanganan batch?', 'E-sign', {
 							confirmButtonText: 'Konfirmasi',
 							cancelButtonText: 'membatalkan',
@@ -109,7 +109,9 @@
 								docIds: this.docIds,
 							};
 							batchSign(data).then(response => {
-
+								if (response){
+									window.open(response.data.signLink);
+								}
 								this.loading = false
 							}).catch(error => {
 								this.loading = false;
