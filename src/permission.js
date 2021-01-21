@@ -25,8 +25,16 @@ router.beforeEach(async (to, from, next) => {
             next({path: '/'})
             NProgress.done()
         } else {
-            next();
-            NProgress.done()
+	        if (to.path === '/user/authentication'){
+				let state = sessionStorage.getItem('state');
+				if (state != -1){
+					next({path: '/electronicSign/account'});
+					NProgress.done()
+				}
+	        } else {
+		        next();
+		        NProgress.done()
+	        }
             // const hasGetUserInfo = store.getters.name
             // if (hasGetUserInfo) {
             //   next()
