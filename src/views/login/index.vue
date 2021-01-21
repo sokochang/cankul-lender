@@ -347,12 +347,12 @@
                         this.loading = true;
                         register(this.registerForm).then(response => {
                             if (response){
-                                this.$message({
-                                    message: response.msg || 'Success',
-                                    type: 'success',
-                                    duration: 5 * 1000
-                                });
-                                this.activeName = 'first';
+	                            sessionStorage.setItem('lenderId', response.data.lenderId);
+	                            sessionStorage.setItem('loginName', response.data.loginName);
+	                            sessionStorage.setItem('token', response.data.token);
+	                            sessionStorage.setItem('phone', response.data.phone);
+	                            sessionStorage.setItem('email', response.data.email);
+	                            this.$router.push({path: this.redirect || '/'});
                             }
 	                        this.loading = false;
                         }).catch(error=>{

@@ -46,7 +46,7 @@
             <el-form-item label="Tempat Lahir" prop="birthplace">
                 <el-input v-model="form.birthplace"/>
             </el-form-item>
-            <el-form-item label="Activity time" prop="birthday">
+            <el-form-item label="Tgl Lahir" prop="birthday">
                 <el-date-picker v-model="form.birthday" type="date" value-format="yyyy-MM-dd" style="width: 100%;"/>
             </el-form-item>
             <el-form-item label="Province" prop="province">
