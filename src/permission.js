@@ -30,6 +30,9 @@ router.beforeEach(async (to, from, next) => {
 				if (state != -1){
 					next({path: '/electronicSign/account'});
 					NProgress.done()
+				} else {
+					next();
+					NProgress.done()
 				}
 	        } else {
 		        next();
