@@ -171,6 +171,7 @@
 										type: 'success',
 										duration: 5 * 1000
 									});
+									this.$router.push({path: '/electronicSign/account'});
 								}
 								this.loading = false;
 							}).catch(error=>{
