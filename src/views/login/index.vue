@@ -486,6 +486,7 @@
     }
 
     .validateBtn {
+        padding: 0;
         display: inline-block;
         width: 35%;
         float: right;
