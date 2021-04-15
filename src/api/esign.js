@@ -6,7 +6,7 @@ export function getList(data) {
 		headers: {
 			"token": sessionStorage.getItem('token')
 		},
-		url: '/lender/auth/doc/list',
+		url: '/lender/auth/borrow/lender/audit',
 		method: 'post',
 		data: qs.stringify(data)
 	})
@@ -18,6 +18,17 @@ export function batchSign(data) {
 			"token": sessionStorage.getItem('token')
 		},
 		url: '/lender/auth/doc/sign/batch',
+		method: 'post',
+		data: qs.stringify(data)
+	})
+}
+
+export function checkContract(data) {
+	return request({
+		headers: {
+			"token": sessionStorage.getItem('token')
+		},
+		url: '/lender/auth/la/contract.htm',
 		method: 'post',
 		data: qs.stringify(data)
 	})

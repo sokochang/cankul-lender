@@ -15,29 +15,39 @@
                     type="selection"
                     width="55">
             </el-table-column>
-            <el-table-column label="Kontrak No" min-width="100">
+            <el-table-column label="订单号" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.docId }}
+                    {{ scope.row.orderNo }}
                 </template>
             </el-table-column>
-            <el-table-column label="Nama debit" min-width="100">
+            <el-table-column label="姓名" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.borrowName }}
+                    {{ scope.row.userName }}
                 </template>
             </el-table-column>
-            <el-table-column label="Nomor ID Debit" min-width="100">
+            <el-table-column label="手机号" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.borrowIdNo }}
+                    {{ scope.row.userPhone }}
                 </template>
             </el-table-column>
-            <el-table-column label="Jumlah pinjaman" min-width="100">
+            <el-table-column label="客户评级" min-width="100">
+                <template slot-scope="scope">
+                    {{ scope.row.userLever }}
+                </template>
+            </el-table-column>
+            <el-table-column label="借款金额" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.loanAmount }}
                 </template>
             </el-table-column>
-            <el-table-column label="Waktu tanda tangan sisi debit" min-width="100">
+            <el-table-column label="出借协议" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.borrowSignTime }}
+                    <el-button @click="handleClick(scope.row)" type="text">{{ scope.row.docNo }}</el-button>
+                </template>
+            </el-table-column>
+            <el-table-column label="创建时间" min-width="100">
+                <template slot-scope="scope">
+                    {{ scope.row.createTime }}
                 </template>
             </el-table-column>
         </el-table>
@@ -48,7 +58,7 @@
 </template>
 
 <script>
-	import {getList, batchSign,} from '@/api/esign'
+	import {getList, batchSign, checkContract} from '@/api/esign'
 	import Pagination from '@/components/Pagination'
 
 	export default {
@@ -76,8 +86,8 @@
 			fetchData() {
 				this.listLoading = true;
 				getList(this.listQuery).then(response => {
-					this.list = response.data.list;
-					this.total = response.data.page.total;
+					this.list = response.data;
+					this.total = response.page.total;
 					this.listLoading = false
 				}).catch(error => {
 					this.listLoading = false;
@@ -87,7 +97,7 @@
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 				let docIds = [];
-				val.map(function(value, index, array) {
+				val.map(function (value, index, array) {
 					docIds.push(value.docId)
 				});
 				docIds = docIds.toString();
@@ -95,7 +105,7 @@
 			},
 			//批量签字
 			batchSign() {
-				if (this.multipleSelection.length !== 0){
+				if (this.multipleSelection.length !== 0) {
 					if (this.state == 10) {
 						this.$confirm(this.multipleSelection.length + ' kontrak telah dipilih untuk Anda, konfirmasi penandatanganan batch?', 'E-sign', {
 							confirmButtonText: 'Konfirmasi',
@@ -109,14 +119,14 @@
 								docIds: this.docIds,
 							};
 							batchSign(data).then(response => {
-								if (response){
+								if (response) {
 									window.open(response.data.signLink);
 								}
 								this.loading = false
 							}).catch(error => {
 								this.loading = false;
 							});
-						}).catch(error=>{
+						}).catch(error => {
 						});
 					} else if (this.state == -1) {
 						this.$message({
@@ -129,8 +139,19 @@
 							type: 'warning'
 						})
 					}
-                }
+				}
 			},
+			//出借协议
+			handleClick(row) {
+				let data = {
+					borrowId: row.borrowId,
+				};
+				checkContract(data).then(response => {
+					let newWin = window.open('', '_blank');
+					newWin.document.write(response);
+				}).catch(error => {
+				});
+			}
 		}
 	}
 </script>

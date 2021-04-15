@@ -482,7 +482,7 @@
     }
 
     .imgCode {
-        width: 55%;
+        width: 54%;
     }
 
     .validateBtn {

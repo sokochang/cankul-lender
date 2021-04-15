@@ -6,7 +6,7 @@
             <el-steps direction="vertical" :active="state" finish-status="success">
                 <el-step title="Mendaftar untuk akun Digisign"></el-step>
                 <el-step title="Aktifkan akun Digisign"></el-step>
-                <el-step title="Tanda Tangan <<perjanjian antara pemberi pinjaman dengan penyelenggara>>"></el-step>
+                <!--<el-step title="Tanda Tangan <<perjanjian antara pemberi pinjaman dengan penyelenggara>>"></el-step>-->
                 <el-step title="Selesai"></el-step>
             </el-steps>
         </div>
@@ -88,7 +88,7 @@
 								this.text = 'Pergi untuk mendaftar';
 								break;
 							case 1:
-								this.text = 'pergi aktifkan';
+								this.text = 'Pergi aktifkan';
 								break;
 							case 2:
 								this.text = 'Masuk';

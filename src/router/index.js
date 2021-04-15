@@ -66,25 +66,26 @@ export const constantRoutes = [
 			{
 				path: 'authentication',
 				name: 'Authentication',
-				component: () => import('@/views/user/index'),
+				component: () => import('@/views/user/authentication/index'),
 				meta: {title: 'Informasi sertifikasi'}
-			}
+			},
+			{
+				path: 'account',
+				name: 'Account',
+				component: () => import('@/views/user/account/index'),
+				meta: {title: 'Aktivasi akun'}
+			},
 		]
 	},
 
 	{
 		path: '/electronicSign',
 		component: Layout,
-		redirect: '/electronicSign/account',
+		redirect: '/electronicSign/esign',
 		name: 'ElectronicSign',
 		meta: {title: 'TTD Elektronik', icon: 'el-icon-edit-outline'},
+		alwaysShow: true,
 		children: [
-			{
-				path: 'account',
-				name: 'Account',
-				component: () => import('@/views/electronicSign/account/index'),
-				meta: {title: 'Aktivasi akun'}
-			},
 			{
 				path: 'esign',
 				name: 'Esign',
