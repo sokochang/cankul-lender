@@ -92,7 +92,12 @@ export const constantRoutes = [
 				component: () => import('@/views/electronicSign/esign/index'),
 				meta: {title: 'E-sign'}
 			},
-
+			{
+				path: 'insured',
+				name: 'Insured',
+				component: () => import('@/views/electronicSign/insured/index'),
+				meta: {title: 'Diasuransikan'}
+			},
 		]
 	},
 
