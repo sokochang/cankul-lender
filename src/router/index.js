@@ -103,13 +103,88 @@ export const constantRoutes = [
 
 	// 404 page must be placed at the end !!!
 	{path: '*', redirect: '/404', hidden: true}
-]
+];
+export const constantRoutes1 = [
+	{
+		path: '/login',
+		component: () => import('@/views/login/index'),
+		hidden: true
+	},
 
+	{
+		path: '/404',
+		component: () => import('@/views/404'),
+		hidden: true
+	},
+
+	{
+		path: '/',
+		component: Layout,
+		redirect: '/dashboard',
+		children: [{
+			path: 'dashboard',
+			name: 'Dashboard',
+			component: () => import('@/views/dashboard/index'),
+			meta: {title: 'Dashboard', icon: 'dashboard'}
+		}]
+	},
+
+	{
+		path: '/user',
+		component: Layout,
+		redirect: '/user/authentication',
+		name: 'User',
+		meta: {title: 'Pusat Pengguna', icon: 'user'},
+		alwaysShow: true,
+		children: [
+			{
+				path: 'authentication',
+				name: 'Authentication',
+				component: () => import('@/views/user/authentication/index'),
+				meta: {title: 'Informasi sertifikasi'}
+			},
+			{
+				path: 'account',
+				name: 'Account',
+				component: () => import('@/views/user/account/index'),
+				meta: {title: 'Aktivasi akun'}
+			},
+		]
+	},
+
+	{
+		path: '/electronicSign',
+		component: Layout,
+		redirect: '/electronicSign/esign',
+		name: 'ElectronicSign',
+		meta: {title: 'TTD Elektronik', icon: 'el-icon-edit-outline'},
+		alwaysShow: true,
+		children: [
+			{
+				path: 'esign',
+				name: 'Esign',
+				component: () => import('@/views/electronicSign/esign/index'),
+				meta: {title: 'E-sign'}
+			},
+			// {
+			// 	path: 'insured',
+			// 	name: 'Insured',
+			// 	component: () => import('@/views/electronicSign/insured/index'),
+			// 	meta: {title: 'Diasuransikan'}
+			// },
+		]
+	},
+
+	// 404 page must be placed at the end !!!
+	{path: '*', redirect: '/404', hidden: true}
+];
+// let lenderId = sessionStorage.getItem('lenderId');
 const createRouter = () => new Router({
 	// mode: 'history', // require service support
 	scrollBehavior: () => ({y: 0}),
-	routes: constantRoutes
-})
+	// routes: lenderId == 2 ? constantRoutes : constantRoutes1
+	routes :constantRoutes
+});
 
 const router = createRouter()
 

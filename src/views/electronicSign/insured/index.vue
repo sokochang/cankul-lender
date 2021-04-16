@@ -1,21 +1,18 @@
 <template>
     <div class="app-container">
         <div class="filter-container">
-            <el-select v-model="listQuery.orderState" placeholder="订单状态" clearable style="width: 200px"
+            <el-select v-model="listQuery.orderState" placeholder="Status Pesanan" clearable style="width: 200px"
                        class="filter-item">
                 <el-option v-for="item in orderStateList" :key="item.key" :label="item.name" :value="item.key"/>
             </el-select>
-            <el-select v-model="listQuery.insureState" placeholder="保险状态" clearable style="width: 200px"
+            <el-select v-model="listQuery.insureState" placeholder="Status asuransi" clearable style="width: 200px"
                        class="filter-item">
                 <el-option v-for="item in insureStateList" :key="item.key" :label="item.name" :value="item.key"/>
             </el-select>
-            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
-                Search
-            </el-button>
-            <el-button class="filter-item" @click="handleReset">重置</el-button>
+            <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Pencarian</el-button>
+            <el-button class="filter-item" @click="handleReset">Setel Ulang</el-button>
         </div>
-        <el-button type="primary" :loading="loading" @click="batchSign" class="batchSign">Penandatanganan batch
-        </el-button>
+        <el-button type="primary" :loading="loading" @click="batchSign" class="batchSign">Mengasuransikan secara batch</el-button>
         <el-table
                 v-loading="listLoading"
                 :data="list"
@@ -27,54 +24,59 @@
         >
             <el-table-column
                     type="selection"
+                    :selectable="selectable"
                     width="55">
             </el-table-column>
-            <el-table-column label="订单号" min-width="100">
+            <el-table-column label="Nomor pesanan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.orderNo }}
                 </template>
             </el-table-column>
-            <el-table-column label="姓名" min-width="100">
+            <el-table-column label="Nama" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userName }}
                 </template>
             </el-table-column>
-            <el-table-column label="手机号" min-width="100">
+            <el-table-column label="Nomor ponsel" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userPhone }}
                 </template>
             </el-table-column>
-            <el-table-column label="客户评级" min-width="100">
+            <el-table-column label="Peringkat Pelanggan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userLevel }}
                 </template>
             </el-table-column>
-            <el-table-column label="借款金额" min-width="100">
+            <el-table-column label="Jumlah Pinjaman" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.loanAmount }}
                 </template>
             </el-table-column>
-            <el-table-column label="出借协议" min-width="100">
+            <el-table-column label="Perjanjian pinjaman" min-width="100">
                 <template slot-scope="scope">
                     <el-button @click="handleClick(scope.row)" type="text">{{ scope.row.docNo }}</el-button>
                 </template>
             </el-table-column>
-            <el-table-column label="订单状态" min-width="100">
+            <el-table-column label="Status Pesanan" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.orderState }}
+                    <span v-if='scope.row.orderState==313'>Untuk ditandatangani oleh peminjam</span>
+                    <span v-if='scope.row.orderState==304 || scope.row.orderState==302'>Pencairan Sedang Proses</span>
+                    <span v-if='scope.row.orderState==30'>Pinjaman Sukses</span>
+                    <span v-if='scope.row.orderState==99'>Tidak</span>
                 </template>
             </el-table-column>
-            <el-table-column label="保险状态" min-width="100">
+            <el-table-column label="Status asuransi" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.insureFlag }}
+                    <span v-if='scope.row.insureFlag==1'>Dibeli</span>
+                    <span v-if='scope.row.insureFlag==0'>Tidak dibeli</span>
                 </template>
             </el-table-column>
-            <el-table-column label="投保时间" min-width="100">
+            <el-table-column label="Waktu yang diasuransikan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.insureTime }}
                 </template>
             </el-table-column>
-            <el-table-column label="更新时间" min-width="100">
+            <el-table-column label="Perbaharui Waktu" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.loanTime }}
                 </template>
@@ -90,14 +92,14 @@
 	import {getList, batchSign, checkContract} from '@/api/insured'
 	import Pagination from '@/components/Pagination'
 	const orderStateList = [
-		{ key: '313', name: '待借款人签字' },
-		{ key: '304', name: '放款中' },
-		{ key: '30', name: '放款成功' },
-		{ key: '99', name: '取消' }
+		{ key: '313', name: 'Untuk ditandatangani oleh peminjam' },
+		{ key: '304', name: 'Pencairan Sedang Proses' },
+		{ key: '30', name: 'Pinjaman Sukses' },
+		{ key: '99', name: 'Tidak' }
 	];
 	const insureStateList = [
-		{ key: '0', name: '未购买' },
-		{ key: '1', name: '已购买' },
+		{ key: '0', name: 'Tidak dibeli' },
+		{ key: '1', name: 'Dibeli' },
 	];
 	export default {
 		components: {Pagination},
@@ -152,16 +154,23 @@
 				this.multipleSelection = val;
 				let docIds = [];
 				val.map(function (value, index, array) {
-					docIds.push(value.docId)
+					docIds.push(value.orderNo)
 				});
 				docIds = docIds.toString();
 				this.docIds = docIds;
 			},
+			selectable(row, index){
+                if (row.orderState == 30 && row.insureFlag == 0){
+                	return true //启用
+                } else {
+                	return false //禁用
+                }
+            },
 			//批量签字
 			batchSign() {
 				if (this.multipleSelection.length !== 0) {
 					if (this.state == 10) {
-						this.$confirm(this.multipleSelection.length + ' kontrak telah dipilih untuk Anda, konfirmasi penandatanganan batch?', 'E-sign', {
+						this.$confirm('Sudah memilih pesanan '+ this.multipleSelection.length +', apakah Anda yakin membeli asuransi?', 'Diasuransikan', {
 							confirmButtonText: 'Konfirmasi',
 							cancelButtonText: 'membatalkan',
 							type: 'warning',

@@ -15,37 +15,37 @@
                     type="selection"
                     width="55">
             </el-table-column>
-            <el-table-column label="订单号" min-width="100">
+            <el-table-column label="Nomor pesanan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.orderNo }}
                 </template>
             </el-table-column>
-            <el-table-column label="姓名" min-width="100">
+            <el-table-column label="Nama" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userName }}
                 </template>
             </el-table-column>
-            <el-table-column label="手机号" min-width="100">
+            <el-table-column label="Nomor ponsel" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userPhone }}
                 </template>
             </el-table-column>
-            <el-table-column label="客户评级" min-width="100">
+            <el-table-column label="Peringkat Pelanggan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.userLevel }}
                 </template>
             </el-table-column>
-            <el-table-column label="借款金额" min-width="100">
+            <el-table-column label="Jumlah Pinjaman" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.loanAmount }}
                 </template>
             </el-table-column>
-            <el-table-column label="出借协议" min-width="100">
+            <el-table-column label="Perjanjian pinjaman" min-width="100">
                 <template slot-scope="scope">
                     <el-button @click="handleClick(scope.row)" type="text">{{ scope.row.docNo }}</el-button>
                 </template>
             </el-table-column>
-            <el-table-column label="创建时间" min-width="100">
+            <el-table-column label="Waktu menciptakan" min-width="100">
                 <template slot-scope="scope">
                     {{ scope.row.createTime }}
                 </template>
@@ -107,7 +107,7 @@
 			batchSign() {
 				if (this.multipleSelection.length !== 0) {
 					if (this.state == 10) {
-						this.$confirm(this.multipleSelection.length + ' kontrak telah dipilih untuk Anda, konfirmasi penandatanganan batch?', 'E-sign', {
+						this.$confirm('Sudahkah Anda memilih '+ this.multipleSelection.length +' kontrak, apakah Anda sudah mengonfirmasi bahwa Anda menyetujui pinjaman dan menandatanganinya?', 'E-sign', {
 							confirmButtonText: 'Konfirmasi',
 							cancelButtonText: 'membatalkan',
 							type: 'warning',
