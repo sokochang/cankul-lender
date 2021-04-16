@@ -47,7 +47,7 @@
             </el-table-column>
             <el-table-column label="Waktu menciptakan" min-width="100">
                 <template slot-scope="scope">
-                    {{ scope.row.createTime }}
+                    {{ scope.row.loanTime }}
                 </template>
             </el-table-column>
         </el-table>
